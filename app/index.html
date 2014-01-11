@@ -11,14 +11,14 @@
 </head>
 <body ng-app="loanApp">
 
-<div class="container">
+<div class="container" ng-controller="mainCtrl">
     <nav class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">J'ai prêté</a>
         </div>
     </nav>
     <div>
-        <div class="container" ng-controller="mainCtrl">
+        <div class="container" >
 
             Vous <ng-pluralize count="remaining()"
                                 when="{'0': 'n\'avez pas d\'objet prêté.',
@@ -41,7 +41,7 @@
                             <img ng-src="pics/{{loan.person.picture}}" class="thumb">
                         </div>
                     </td>
-                    <td><button class="btn btn-primary">details</button></td>
+                    <td><button class="btn btn-primary" ng-click="details(loan.id)">details</button></td>
                 </tr>
             </table>
 
@@ -59,7 +59,26 @@
         </div>
     </div>
 
-
+    <div class="jumbotron">
+           <div>
+               <a>back</a>
+               <div class="row">
+                 <div class="col-sm-1">person</div>
+                 <div class="col-sm-2">{{currentLoan.person.name}}</div>
+               </div>
+               <div class="row">
+                 <div class="col-sm-3">
+                   <div class="label">
+                       <img src="pics/{{currentLoan.person.picture}}" class="thumb">
+                   </div>
+                 </div>
+               </div>
+               <div class="row">
+                 <div class="col-sm-1">objet</div>
+                 <div class="col-sm-2">{{currentLoan.object}}</div>
+               </div>
+           </div>
+       </div>
 
     <div class="footer">
         <p>copyright 2014</p>

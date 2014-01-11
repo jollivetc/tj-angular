@@ -31,6 +31,12 @@ app.controller('mainCtrl', function($scope, Loan){
         $scope.newLoan = {};
         $scope.selectedPerson = {};
     }
+
+    $scope.details = function(id){
+        Loan.get({loanId: id}, function(loan){
+            $scope.currentLoan = loan;
+        });
+    }
 });
 
 app.factory('Loan',function($resource){
