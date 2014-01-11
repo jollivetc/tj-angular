@@ -1,6 +1,6 @@
-var app = angular.module('loanApp', []);
+var app = angular.module('loanApp', ['ngResource']);
 
-app.controller('mainCtrl', function($scope){
+app.controller('mainCtrl', function($scope, Loan){
 
     //Define the model for persons
     var persons = [
@@ -9,14 +9,8 @@ app.controller('mainCtrl', function($scope){
         {name: 'Actarus', picture: 'actarus.jpg'},
         {name: 'Capitaine Kirk', picture: 'kirk.jpeg'}
     ];
-    //Define the model for loans
-    var loans = [
-        {id:1, object: 'sabre laser', person: persons[0], done: true},
-        {id:2, object: 'Tournevis sonique', person: persons[1], done: false},
-        {id:3, object: 'Goldorak', person: persons[2], done: false}
-    ];
 
-    $scope.loans = loans;
+    $scope.loans = Loan.query();
     $scope.persons = persons;
 
     $scope.remaining = function () {
@@ -26,8 +20,27 @@ app.controller('mainCtrl', function($scope){
     };
 
     $scope.ajouter = function(newLoan, selectedPerson){
-        var loan = {object: newLoan.loanedObject, person: selectedPerson, done: false};
-        loans.push(loan);
+        //var loan = {object: newLoan.loanedObject, person: selectedPerson, done: false};
+        var loan = new Loan();
+        loan.object = newLoan.loanedObject;
+        loan.person = selectedPerson;
+        loan.$save(function(){
+            $scope.loans = Loan.query();
+        });
+
         $scope.newLoan = {};
+        $scope.selectedPerson = {};
     }
 });
+
+app.factory('Loan',function($resource){
+    var Loan = $resource(
+           'http://localhost:8000/api/loans/:loanId',
+           {},
+           {
+               update:{method:'PUT'}
+           }
+       );
+        Loan.prototype.done=false;
+        return Loan;
+})
