@@ -19,4 +19,11 @@ app.controller('mainCtrl', function($scope){
     $scope.loans = loans;
     $scope.persons = persons;
 
+    $scope.remaining = function () {
+        return $scope.loans.reduce(function (count, loan) {
+            return loan.done ? count : count + 1;
+        }, 0);
+    };
+
+
 });

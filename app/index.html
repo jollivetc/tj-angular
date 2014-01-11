@@ -20,7 +20,10 @@
     <div>
         <div class="container" ng-controller="mainCtrl">
 
-            Vous avez 2 objects prêtés.
+            Vous <ng-pluralize count="remaining()"
+                                when="{'0': 'n\'avez pas d\'objet prêté.',
+                                       'one': 'avez {} objet prêté.',
+                                       'other': 'avez {} objects prêtés.'}" ></ng-pluralize>
 
             <div class="form-group ">
                 <label for="filter">filtre</label>
