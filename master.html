@@ -1,0 +1,87 @@
+
+<!doctype html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body ng-app="v1App">
+
+<div class="container">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">J'ai prêté</a>
+        </div>
+    </nav>
+    <div>
+        <div class="container">
+
+            Vous avez 2 objects prêtés.
+
+
+            <div class="form-group">
+                <label for="filter">filtre</label>
+                <input id="filter" type="text" name="filter" class="form-control">
+            </div>
+
+
+            <table class="table table-striped table-condensed">
+                <tr class="done-true">
+                    <td><input type="checkbox" checked></td>
+                    <td>Sabre laser</td>
+                    <td>Luke Skywalker 
+                        <div class="label">
+                            <img src="pics/lukeskywalker.jpg" class="thumb">
+                        </div>
+                    </td>
+                    <td><button class="btn btn-primary">details</button></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>Tournevis sonic</td>
+                    <td>Docteur Who 
+                        <div class="label">
+                            <img src="pics/doctorWho.jpg" class="thumb">
+                        </div>
+                    </td>
+                    <td><button class="btn btn-primary">details</button></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" ></td>
+                    <td>Godorak</td>
+                    <td>Actarus 
+                        <div class="label">
+                            <img src="pics/actarus.jpg" class="thumb">
+                        </div>
+                    </td>
+                    <td><button class="btn btn-primary">details</button></td>
+                </tr>
+            </table>
+
+            <form role="form" class="form-inline" name="loanForm">
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="newLoan.name" ng-required="true" name="loanName">
+                    <span ng-show="loanForm.loanName.$invalid">valeur obligatoire</span>
+                    <select ng-options="p.name for p in persons" ng-model="selectedPerson"></select>
+
+                    <button class="btn btn-primary" ng-click="ajouter(newLoan, selectedPerson)" ng-disabled="loanForm.$invalid">ajouter</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+
+    <div class="footer">
+        <p>copyright 2014</p>
+    </div>
+
+</div>
+
+</body>
+</html>
