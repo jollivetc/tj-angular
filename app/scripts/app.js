@@ -39,6 +39,12 @@ app.controller('mainCtrl', function($scope, Loan){
     }
 });
 
+app.filter('picUrl', function () {
+    return function (personPic) {
+        return 'pics/' + personPic;
+    };
+});
+
 app.factory('Loan',function($resource){
     var Loan = $resource(
            'http://localhost:8000/api/loans/:loanId',
@@ -49,4 +55,18 @@ app.factory('Loan',function($resource){
        );
         Loan.prototype.done=false;
         return Loan;
-})
+});
+
+app.directive('tjAvatar', function(){
+    return{
+        restrict: 'E',
+        replace: true,
+        scope: {
+            personpic: '='
+        },
+        template: '<div class="avatar label">' +
+            '<img ng-src="{{personpic | picUrl}}" class="thumb">' +
+            '</div>'
+
+    }
+});

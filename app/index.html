@@ -37,9 +37,8 @@
                     <td><input type="checkbox" ng-model="loan.done"></td>
                     <td>{{loan.object}}</td>
                     <td>{{loan.person.name}}
-                        <div class="label">
-                            <img ng-src="pics/{{loan.person.picture}}" class="thumb">
-                        </div>
+                        <tj-avatar personpic="loan.person.picture"></tj-avatar>
+                        
                     </td>
                     <td><button class="btn btn-primary" ng-click="details(loan.id)">details</button></td>
                 </tr>
@@ -68,9 +67,7 @@
                </div>
                <div class="row">
                  <div class="col-sm-3">
-                   <div class="label">
-                       <img src="pics/{{currentLoan.person.picture}}" class="thumb">
-                   </div>
+                     <tj-avatar personpic="currentLoan.person.picture"></tj-avatar>
                  </div>
                </div>
                <div class="row">
