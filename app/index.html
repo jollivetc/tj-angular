@@ -20,10 +20,7 @@
     <div>
         <div class="container" ng-controller="mainCtrl">
 
-            {{loans}}
-
             Vous avez 2 objects prêtés.
-
 
             <div class="form-group ">
                 <label for="filter">filtre</label>
@@ -33,32 +30,12 @@
 
             <table class="table table-striped table-condensed">
 
-                <tr class="done-true">
-                    <td><input type="checkbox" checked></td>
-                    <td>Sabre laser</td>
-                    <td>Luke Skywalker
+                <tr ng-repeat="loan in loans">
+                    <td><input type="checkbox" ng-model="loan.done"></td>
+                    <td>{{loan.object}}</td>
+                    <td>{{loan.person.name}}
                         <div class="label">
-                            <img src="pics/lukeskywalker.jpg" class="thumb">
-                        </div>
-                    </td>
-                    <td><button class="btn btn-primary">details</button></td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Tournevis sonic</td>
-                    <td>Docteur Who
-                        <div class="label">
-                            <img src="pics/doctorWho.jpg" class="thumb">
-                        </div>
-                    </td>
-                    <td><button class="btn btn-primary">details</button></td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" ></td>
-                    <td>Godorak</td>
-                    <td>Actarus
-                        <div class="label">
-                            <img src="pics/actarus.jpg" class="thumb">
+                            <img ng-src="pics/{{loan.person.picture}}" class="thumb">
                         </div>
                     </td>
                     <td><button class="btn btn-primary">details</button></td>
