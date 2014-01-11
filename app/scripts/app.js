@@ -7,7 +7,7 @@ app.controller('mainCtrl', function($scope){
         {name: 'Luke Skywalker', picture: 'lukeskywalker.jpg'},
         {name: 'Doctor Who', picture: 'doctorWho.jpg'},
         {name: 'Actarus', picture: 'actarus.jpg'},
-        {name: 'Capitaine Kirk', picture: 'kirk.jpg'}
+        {name: 'Capitaine Kirk', picture: 'kirk.jpeg'}
     ];
     //Define the model for loans
     var loans = [
@@ -25,5 +25,9 @@ app.controller('mainCtrl', function($scope){
         }, 0);
     };
 
-
+    $scope.ajouter = function(newLoan, selectedPerson){
+        var loan = {object: newLoan.loanedObject, person: selectedPerson, done: false};
+        loans.push(loan);
+        $scope.newLoan = {};
+    }
 });
