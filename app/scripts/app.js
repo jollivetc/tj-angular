@@ -1,3 +1,5 @@
+'use strict';
+
 var app = angular.module('loanApp', ['ngResource', 'ngRoute']);
 
 app.config(function ($routeProvider) {
