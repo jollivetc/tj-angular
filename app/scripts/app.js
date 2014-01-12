@@ -13,6 +13,8 @@ app.controller('mainCtrl', function($scope, Loan){
     $scope.loans = Loan.query();
     $scope.persons = persons;
 
+    $scope.view = "master";
+
     $scope.remaining = function () {
         return $scope.loans.reduce(function (count, loan) {
             return loan.done ? count : count + 1;
@@ -36,6 +38,11 @@ app.controller('mainCtrl', function($scope, Loan){
         Loan.get({loanId: id}, function(loan){
             $scope.currentLoan = loan;
         });
+        $scope.view = "details";
+    }
+
+    $scope.goToMaster = function(){
+        $scope.view = "master";
     }
 });
 

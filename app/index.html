@@ -17,8 +17,8 @@
             <a class="navbar-brand" href="#">J'ai prêté</a>
         </div>
     </nav>
-    <div>
-        <div class="container" >
+    <div ng-switch="view">
+        <div class="container" ng-switch-when="master">
 
             Vous <ng-pluralize count="remaining()"
                                 when="{'0': 'n\'avez pas d\'objet prêté.',
@@ -56,27 +56,27 @@
             </form>
 
         </div>
-    </div>
 
-    <div class="jumbotron">
-           <div>
-               <a>back</a>
-               <div class="row">
-                 <div class="col-sm-1">person</div>
-                 <div class="col-sm-2">{{currentLoan.person.name}}</div>
-               </div>
-               <div class="row">
-                 <div class="col-sm-3">
-                     <tj-avatar personpic="currentLoan.person.picture"></tj-avatar>
-                 </div>
-               </div>
-               <div class="row">
-                 <div class="col-sm-1">objet</div>
-                 <div class="col-sm-2">{{currentLoan.object}}</div>
+
+        <div class="jumbotron" ng-switch-when="details">
+               <div>
+                   <a ng-click="goToMaster()">back</a>
+                   <div class="row">
+                     <div class="col-sm-1">person</div>
+                     <div class="col-sm-2">{{currentLoan.person.name}}</div>
+                   </div>
+                   <div class="row">
+                     <div class="col-sm-3">
+                         <tj-avatar personpic="currentLoan.person.picture"></tj-avatar>
+                     </div>
+                   </div>
+                   <div class="row">
+                     <div class="col-sm-1">objet</div>
+                     <div class="col-sm-2">{{currentLoan.object}}</div>
+                   </div>
                </div>
            </div>
-       </div>
-
+    </div>
     <div class="footer">
         <p>copyright 2014</p>
     </div>
