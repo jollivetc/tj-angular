@@ -1,0 +1,18 @@
+<div class="jumbotron">
+   <div>
+       <a ng-click="goToMaster()">back</a>
+       <div class="row">
+         <div class="col-sm-1">person</div>
+         <div class="col-sm-2">{{currentLoan.person.name}}</div>
+       </div>
+       <div class="row">
+         <div class="col-sm-3">
+             <tj-avatar personpic="currentLoan.person.picture"></tj-avatar>
+         </div>
+       </div>
+       <div class="row">
+         <div class="col-sm-1">objet</div>
+         <div class="col-sm-2">{{currentLoan.object}}</div>
+       </div>
+   </div>
+</div>

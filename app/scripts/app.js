@@ -1,6 +1,20 @@
-var app = angular.module('loanApp', ['ngResource']);
+var app = angular.module('loanApp', ['ngResource', 'ngRoute']);
 
-app.controller('mainCtrl', function($scope, Loan){
+app.config(function ($routeProvider) {
+    $routeProvider
+        .when('/',{
+            templateUrl : 'partials/master.html',
+            controller : 'mainCtrl'
+        })
+        .when('/details/:loanId', {
+            templateUrl : 'partials/details.html',
+            controller : 'detailsCtrl'
+        }).otherwise({redirectTo:'/'});
+});
+
+
+
+app.controller('mainCtrl', function($scope, Loan, $location){
 
     //Define the model for persons
     var persons = [
@@ -12,8 +26,6 @@ app.controller('mainCtrl', function($scope, Loan){
 
     $scope.loans = Loan.query();
     $scope.persons = persons;
-
-    $scope.view = "master";
 
     $scope.remaining = function () {
         return $scope.loans.reduce(function (count, loan) {
@@ -32,23 +44,32 @@ app.controller('mainCtrl', function($scope, Loan){
 
         $scope.newLoan = {};
         $scope.selectedPerson = {};
-    }
+    };
 
     $scope.details = function(id){
-        Loan.get({loanId: id}, function(loan){
-            $scope.currentLoan = loan;
-        });
-        $scope.view = "details";
-    }
+        $location.path("/details/" + id);
+
+    };
+
+
+});
+
+app.controller('detailsCtrl', function($scope, Loan, $location, $routeParams){
+    var id = $routeParams.loanId;
+    $scope.currentLoan = Loan.get({loanId:id});
 
     $scope.goToMaster = function(){
-        $scope.view = "master";
+        $location.path("/");
     }
 });
 
 app.filter('picUrl', function () {
     return function (personPic) {
-        return 'pics/' + personPic;
+        if(personPic){
+            return 'pics/' + personPic;
+        }else{
+            return undefined;
+        }
     };
 });
 
