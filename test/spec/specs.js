@@ -1,69 +1,73 @@
-"use strict";
-describe('Controller: MainCtrl', function () {
-
-    // load the controller's module
-    beforeEach(module('loanApp'));
-
-    var mainCtrl,
-        scope;
-
-    var mockLoan = {
-        query: function () {
-            return "mockData";
-        }
-    }
-
-    // Initialize the controller and a mock scope
-    beforeEach(inject(function ($controller, $rootScope) {
-        scope = $rootScope.$new();
-        mainCtrl = $controller('mainCtrl', {
-            $scope: scope,
-            Loan: mockLoan
-        });
-    }));
-
-    it('should attach a list of person to the scope', function () {
-        expect(scope.persons.length).toBe(4);
-    });
-
-    it('should load loans from backend and expose in scope', function () {
-        expect(scope.loans).toBe("mockData");
-    });
-
-});
-
-
-describe('Service : Loan', function () {
-    var testedLoan,
-         httpBackend;
+'use strict';
+describe('loanApp', function(){
     beforeEach(function () {
-        //load the module.
         module('loanApp');
+    });
 
-        //get your service, also get $httpBackend
-        //$httpBackend will be a mock, thanks to angular-mocks.js
-        inject(function ($httpBackend, Loan) {
-            testedLoan = Loan;
-            httpBackend = $httpBackend;
+    describe('mainCtrl', function(){
+        var scope, location;
+        var loanMock = {
+            query: function () {
+                return 42;
+            }
+        };
+        beforeEach(inject(function($rootScope, $controller, $location){
+            scope = $rootScope.$new();
+            location = $location;
+            spyOn(location, 'path');
+            $controller('mainCtrl', {
+                $scope: scope,
+                Loan: loanMock,
+                $location: location
+            });
+        }));
+        it('should set persons', function () {
+            expect(scope.persons.length).toBe(4);
+        });
+        it('should call query', function () {
+            expect(scope.loans).toBe(42);
+        });
+        it('should call location', function () {
+            scope.showDetails(1);
+            expect(location.path).toHaveBeenCalledWith('/details/1');
         });
     });
 
-    //make sure no expectations were missed in your tests.
-    //(e.g. expectGET or expectPOST)
-    afterEach(function () {
-        httpBackend.verifyNoOutstandingExpectation();
-        httpBackend.verifyNoOutstandingRequest();
+    describe('filter', function(){
+        var filter;
+        beforeEach(inject(function($filter){
+            filter = $filter('picUrl');
+        }));
+        it('should add pics', function () {
+            expect(filter('foo')).toBe('pics/foo');
+        });
     });
+    describe('Loan', function(){
+        var loan, httpBackend;
+        beforeEach(inject(function(Loan, $httpBackend){
+            loan = Loan;
+            httpBackend = $httpBackend;
+        }));
+        it('should call backend', function () {
+            var result = {foo: 'bar'};
+            httpBackend.expectGET('http://localhost:8000/api/loans/1').respond(result);
 
-    it('should call backend on load', function(){
-        var returnedData = {result: 'from backend'};
-
-        httpBackend.expectGET('http://localhost:8000/api/loans/1').respond(returnedData);
-
-        testedLoan.get({loanId: 1}, function(){});
-
-        httpBackend.flush();
-
-    })
-
+            loan.get({loanId: 1}, function(data){
+                expect(data.foo).toBe('bar');
+            });
+            httpBackend.flush();
+        });
+    });
+    describe('directive', function(){
+        var elm;
+        beforeEach(inject(function($compile, $rootScope){
+            var scope = $rootScope.$new();
+            scope.pic = 'foo';
+            elm = $compile("<tj-avatar personpic = 'pic'></tj-avatar>")(scope);
+            scope.$digest();
+        }));
+        it('should replace html', function () {
+            expect(elm.children()[0].src).toContain('pics/foo');
+        });
+    });
 });

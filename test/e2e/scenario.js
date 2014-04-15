@@ -1,16 +1,13 @@
 'use strict';
 
-describe('Loan master page', function () {
-    it('it should filter the table', function () {
+describe('filter', function(){
+    it('should filter', function () {
+        browser.get('http://localhost:9000/#/');
 
-        browser.get('http://127.0.0.1:9000/#/');
-
-        var firstObject = element(by.repeater('loan in loans'));
-        expect(firstObject.getText()).toContain('SABRE LASER');
-
+        var firstElement = element(by.repeater('loan in loans').row(0).column('{{loan.object | uppercase}}'));
+        expect(firstElement.getText()).toBe('SABRE LASER');
         element(by.model('search')).sendKeys('tour');
-
-        firstObject = element(by.repeater('loan in loans'));
-        expect(firstObject.getText()).toContain('TOURNEVIS SONIQUE');
+        firstElement = element(by.repeater('loan in loans').row(0).column('{{loan.object | uppercase}}'));
+        expect(firstElement.getText()).toBe('TOURNEVIS SONIQUE');
     });
 });
